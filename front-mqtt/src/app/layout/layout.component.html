@@ -1,0 +1,49 @@
+
+
+<header class="navbar navbar-dark sticky-top bg-secondary flex-md-nowrap px-0 py-2 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-warning" href="#">CLIENTES MQTT</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>    
+</header>
+<div class="container-fluid">
+    <!-- <nav class="navbar navbar-dark bg-dark py-4 px-0" aria-label="First navbar example">
+        <div class="container-fluid">
+            <h4 class="text-warning">Clientes Mqtt a Broker HiveMQ</h4>
+        </div>
+    </nav> -->
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column py-4">
+                    <li class="nav-item py-1">
+                        <a [class]="item==0 ? 'nav-link active':'nav-link'" (click)="changeItem(0)" aria-current="page" [routerLink]="['home']">
+                            <span data-feather="home"></span>
+                            <i class="bi bi-bezier2"></i>
+                            Principal
+                        </a>
+                    </li>
+                    <li class="nav-item py-1">
+                        <a [class]="item==1 ? 'nav-link active':'nav-link'" (click)="changeItem(1)" [routerLink]="['client1']">
+                            <span data-feather="file"></span>
+                            <i class="bi bi-bezier2"></i>
+                            Cliente1
+                        </a>
+                    </li>
+                    <li class="nav-item py-1">
+                        <a [class]="item==2 ? 'nav-link active':'nav-link'" (click)="changeItem(2)" [routerLink]="['client2']">
+                            <span data-feather="shopping--cart"></span>
+                            <i class="bi bi-bezier2"></i>
+                            Cliente2
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-md-4">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

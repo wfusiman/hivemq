@@ -1,0 +1,42 @@
+name: hivemq
+
+services:
+  hivemq:
+    build: 
+      dockerfile: hmq.Dockerfile
+      target: hmq4
+    ports:
+      - "1883:1883" # MQTT port
+      - "82:8080"  # Hivemq broker port
+
+  nodeclient:
+    build: 
+      context: ./nodeclient
+      dockerfile: Dockerfile
+    ports:
+      - 3300:3300
+    volumes:
+      - ./nodeclient:/home/dev/servernode
+      - /home/dev/servernode/node_modules
+
+  pythonclient:
+    build: 
+      context: ./pythonclient
+      dockerfile: py.Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./pythonclient:/home/dev/serverpy
+
+  front:
+    build:
+      context: ./front-mqtt
+      dockerfile: front.Dockerfile
+    ports: 
+      - 4300:4200
+    volumes:
+      - ./front-mqtt/:/home/app/front
+      - /home/app/front/node_modules
+
+  # mqttclient:
+    # image: hivemq/mqtt-cli
