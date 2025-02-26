@@ -34,16 +34,18 @@ def publish():
     data = request.get_json()
     topic = data.get('topic')
     message = data.get('message')
+    retain = data.get('retain')
     app.logger.debug("***** PUBLISH: " + str(data ))
-    val = mqttCtrl.publish( topic, message )
+    val = mqttCtrl.publish( topic, message, retain )
     return jsonify( {"error": True if val==False else False, "data": str(val)} )
 
 @app.route('/api/subscribe', methods=['POST'])
 def subscribe():
     data = request.get_json()
     topic = data.get('topic')
+    qos = data.get('qos')
     app.logger.debug("***** SUBSCRIBE: " + str(data ))
-    val = mqttCtrl.subscribe( topic )
+    val = mqttCtrl.subscribe( topic, qos )
     return jsonify( { "error": False if val else True, "data": "Susbcripto" if val else "No se pudo subscribir"} )
 
 

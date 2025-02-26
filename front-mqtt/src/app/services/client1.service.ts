@@ -30,9 +30,9 @@ export class Client1Service {
     return this.http.post( this.url +'/publish', { topic: topic, message: data });
   }
 
-  subscribir( topic: string): Observable<any> {
+  subscribir( topic: string, qos: number ): Observable<any> {
     //return of({ error: false, data:'subs ok '});
-    return this.http.post( this.url + '/subscribe', { topic: topic, qos:0 } );
+    return this.http.post( this.url + '/subscribe', { topic: topic, qos:qos } );
   }
 
   desubscribir( topic: string ):Observable<any> {

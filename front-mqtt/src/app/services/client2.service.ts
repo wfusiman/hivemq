@@ -23,14 +23,14 @@ export class Client2Service {
     return this.http.get(this.url + '/connect');
   }
 
-  publicar(topic: string, data: string): Observable<any> {
+  publicar(topic: string, data: string, retain: boolean): Observable<any> {
     //return of({ error: false, data: 'publish ok '});
-    return this.http.post(this.url + '/publish', { topic: topic, message: data });
+    return this.http.post(this.url + '/publish', { topic: topic, message: data, retain: retain });
   }
 
-  subscribir(topic: string): Observable<any> {
+  subscribir(topic: string, qos: number ): Observable<any> {
     //return of({ error: false, data:'subs ok '});
-    return this.http.post(this.url + '/subscribe', { topic: topic, qos: 0 });
+    return this.http.post(this.url + '/subscribe', { topic: topic, qos: qos });
   }
 
   desubscribir(topic: string): Observable<any> {

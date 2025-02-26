@@ -20,7 +20,7 @@ class MqttController:
         #current_app.logger.info('CONNACK received with code %d.' % (rc))
     
     mqttclient.on_connect = on_connect
-    mqttclient.will_set('die', payload='Mensaje final', qos=0, retain=False)
+    mqttclient.will_set('die', payload='Mensaje final', qos=2, retain=True)
     
     def status(self):
         current_app.logger.info('*** STATUC CONECCTION ' + str(mqttclient) )
@@ -33,9 +33,9 @@ class MqttController:
         current_app.logger.info( val )
         mqttclient.loop_start()
 
-    def publish(self, topic, message):
+    def publish(self, topic, message, retain ):
         if (mqttclient.is_connected()):
-            val = mqttclient.publish( topic, message )
+            val = mqttclient.publish( topic, message, retain=retain )
             return val
         return False
 
@@ -56,6 +56,10 @@ class MqttController:
     def desubscribe( self,topic ):
         if (mqttclient.is_connected()):
             mqttclient.unsubscribe( topic )
+            # remove topic from list of topics
+            if topic in topicsList:
+                index = topicsList.index(topic)  # Find the topic occurrence
+                topicsList.pop(index)  # Remove it
             return True
         return False
 

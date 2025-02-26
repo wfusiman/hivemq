@@ -16,8 +16,10 @@ export class Client2Component {
   estat: string = '';
   pubtopic: string = '';
   pubmessage: string = '';
+  pubretain: boolean = false;
 
   subtopic: string = '';
+  subqos:number = 0;
   subs: string[] = [];
   messages: any[] = [];
 
@@ -29,15 +31,17 @@ export class Client2Component {
 
   status() {
     this.spin = true;
-    this.servclient.getStatus().subscribe((res: any) => {
-      this.spin = false;
-      console.log("getStatus: ", res);
-      this.conf = res;
-      if (this.conf.connect) {
-        this.subs = this.conf.topics ? JSON.parse(this.conf.topics.replace(/'/g, '"')) : [];
-        this.refreshMessages();
-      }
-    });
+    setTimeout(() => {
+      this.servclient.getStatus().subscribe((res: any) => {
+        this.spin = false;
+        console.log("getStatus: ", res);
+        this.conf = res;
+        if (this.conf.connect) {
+          this.subs = this.conf.topics ? JSON.parse(this.conf.topics.replace(/'/g, '"')) : [];
+          this.refreshMessages();
+        }
+      });
+    }, 2000);
   }
 
   connect() {
@@ -47,9 +51,8 @@ export class Client2Component {
       this.spin = false;
       console.log("connectar : ", res);
       this.showToast(res.error, res.error ? 'Error' : 'Ok', res.error ? 'No se pudo conectar a broker' : 'Conectado a broker');
-      if (!res.error) {
+      if (!res.error)
         this.status();
-      }
     })
   }
 
@@ -59,12 +62,13 @@ export class Client2Component {
       return;
     }
     this.spin = true;
-    this.servclient.publicar(this.pubtopic, this.pubmessage).subscribe((res: any) => {
+    this.servclient.publicar(this.pubtopic, this.pubmessage, this.pubretain).subscribe((res: any) => {
       this.spin = false;
       console.log("publicar : ", res);
       if (!res.error) {
         this.pubtopic = '';
         this.pubmessage = '';
+        this.pubretain = false;
       }
       this.showToast(res.error, res.error ? 'Error' : 'Ok', res.error ? 'No se pudo publicar' : 'Mensaje publicado');
     })
@@ -78,7 +82,7 @@ export class Client2Component {
     }
     if (this.subs.find((s: string) => s == this.subtopic)) return;
     this.spin = true;
-    this.servclient.subscribir(this.subtopic).subscribe((res: any) => {
+    this.servclient.subscribir(this.subtopic, this.subqos).subscribe((res: any) => {
       this.spin = false;
       this.showToast(res.error, res.error ? 'Error' : 'Ok', res.data);
       if (!res.error) {
@@ -139,13 +143,16 @@ export class Client2Component {
     this.toast.title = tit;
     this.toast.message = msg;
     this.toast.visible = true;
-    setInterval(() => {
-      this.toast.visible = false;
-    }, 6000);
+    console.log("mostrar toast");
+    setTimeout(() => { this.closeToast() }, 4000);
   }
 
   closeToast() {
+    console.log("cerrar toast")
     this.toast.visible = false;
   }
 
+  setQoS( val: number ) {
+    this.subqos = val;
+  }
 }
