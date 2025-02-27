@@ -7,7 +7,8 @@ var topics;
 class MqttHandler {
 
   mqttClient = null;
-  host = 'mqtt://192.168.0.113:1883';
+  //host = 'mqtt://192.168.0.113:1883';
+  host = 'mqtt://192.168.21.187';
   ws = 'ws://192.168.0.113:8000';
 
   optionConn = {

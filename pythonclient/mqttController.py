@@ -8,7 +8,8 @@ mqttclient = mqtt.Client(client_id='pahoClient')
 logger = logging.getLogger(__name__)
 
 class MqttController:   
-    host = '192.168.0.113'
+    #host = '192.168.0.113'
+    host = '192.168.21.187';
     port = 1883
     keepAlive = 50;
     
