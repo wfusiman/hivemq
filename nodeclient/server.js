@@ -67,3 +67,5 @@ app.delete( '/api/disconnect', (req,res) => {
 app.listen(port, () => {
     console.log(`App running on http://localhost:${port}`);
 });
+
+// LINEA PARA PUSHEAR Y PROBAR CAMBIOS EN SONARQUBE
